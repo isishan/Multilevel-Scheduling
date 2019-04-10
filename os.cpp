@@ -7,7 +7,7 @@ struct process
 	{	
 		int pid, priority, burst, burst2, at, start, end, wt, tat;
 	};
-int ttime=0;
+int ttime=0, cntemp=0, tot=0;
 int p;
 struct process pro[100];
 
@@ -75,7 +75,7 @@ void showall()
 		cout<<endl<<setw(7)<<"P"<<pro[i].pid-100<<setw(15)<<pro[i].at<<setw(10)<<pro[i].priority<<setw(15)<<pro[i].burst2<<setw(10)<<pro[i].start<<setw(20)<<pro[i].end<<setw(15)<<pro[i].wt<<setw(20)<<pro[i].tat;	
 	}
 	
-	cout<<"\n\n\n\tAverage Waiting Time -->"<<(float)avgwt/p<<"\n\tAverage Turnaround Time -->"<<(float)avgtat/p;
+	cout<<"\n\n\n\tAverage Waiting Time -->"<<(float)avgwt/p<<"\n\tAverage Turnaround Time -->"<<(float)avgtat/p<<"\n\tCPU Utilization --> "<<(float)(tot-cntemp)/tot*100<<"%";
 	
 }
 void qload(int ttime)
@@ -363,11 +363,13 @@ int main()
 			if(procheck())
 			{
 				cout<<" <"<<ttime<<"> \n";
+				tot=ttime;
 				flagclose=1;
 			}
 			else
 			{
 				cout<<" <"<<ttime<<">"<<" -X-";
+				cntemp++;
 				ttime++;
 				qload(ttime);
 				qload2(ttime);
